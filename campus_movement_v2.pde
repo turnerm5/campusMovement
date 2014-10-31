@@ -173,8 +173,6 @@ void studentGraph() {
   line(x+2, height, x+2, y);
 }
 
-
-
 void keyPressed() {
   if (keyCode == UP) {
     saveFrame("screenshot.tif" );

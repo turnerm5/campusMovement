@@ -12,7 +12,7 @@ class ParkingLots {
   int[] capacity;
   int[] currentCapacity;
 
-
+  float randomNumber;
 
   float shortestDistance = 100000;
   float distance;
@@ -24,6 +24,8 @@ class ParkingLots {
     currentCapacity = new int[20];
     shortlist = new ArrayList<Integer>();
 
+
+    //This should be optimized to have a table, instead of hard-coded values
     lot[0] = new PVector(327, 27);
     lot[1] = new PVector(571, 52);
     lot[2] = new PVector(341, 96);
@@ -47,6 +49,7 @@ class ParkingLots {
     lot[19] = new PVector(515, 28);
 
 
+    //edmonds lots
     capacity[0] = 75;
     capacity[1] = 75;
     capacity[2] = 50;
@@ -63,21 +66,29 @@ class ParkingLots {
     capacity[13] = 150;
     capacity[14] = 175;
     capacity[15] = 175;
+    
+    //bus drop off
     capacity[16] = 99999;
     capacity[17] = 99999;
     capacity[18] = 99999;
     capacity[19] = 99999;
 
+
+
+    //initialize our lots
     for (int i=0; i<20; i++) {
       currentCapacity[i] = capacity[i];
     }
   }
 
   PVector lookup(PVector building) {
+    
+    // where is the closest lot?
     shortestDistance = 100000;
     shortlist.clear();
     shortlist.add(0);
 
+    //check the distance between my first building and all of the lots
     for (int i=0; i<16; i++) {
       distance = abs(building.dist(lot[i]));
       if (distance < shortestDistance) {
@@ -86,6 +97,7 @@ class ParkingLots {
       }
     }
 
+    //is the lot full? If so, remove it from our list of candidates.
     Iterator<Integer> it = shortlist.listIterator();    
     while (it.hasNext ()) {
       int testLot = it.next();
@@ -94,7 +106,12 @@ class ParkingLots {
       }
     }
 
-    if (shortlist.size() > 0) {
+    //some people take the bus
+    randomNumber = random(0, 1);
+
+
+    //if there are lots available, and I'm not taking the bus, return the lot I should pick
+    if (shortlist.size() > 0 && randomNumber < .65) { //this should be confirmed with a survey of how many people take the bus
       return lot[shortlist.get(0)];
     } 
     else {
@@ -118,7 +135,7 @@ class ParkingLots {
 
   int indexLookup(PVector building) {
 
-    if (shortlist.size() > 0) {
+    if (shortlist.size() > 0 && randomNumber < .65) {
       return shortlist.get(0);
     } 
     else {
