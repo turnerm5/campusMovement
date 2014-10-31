@@ -42,8 +42,8 @@ int periodDisplay;
 int studentCount;
 
 public void setup() {
-  size(1024, 768);
-  frameRate = 60;
+  size(720, 830);
+  frameRate = 120;
   students = new ArrayList<Student>();
   studentCount = 0;
 
@@ -52,7 +52,7 @@ public void setup() {
 
   background(85);
   background = loadImage("campusmap.png");
-  tint(255, 255, 255, 85);
+  tint(255, 255, 255, 150);
   image(background, 0, 0);
 
   //get our Excel data
@@ -119,8 +119,6 @@ public void draw() {
   lots.display();
   buildings.display();
   studentGraph();
-  //turn this on when rendering it.
-  //saveFrame("/frames/frame-#######.tif");
 
   if (mousePressed && (mouseButton == LEFT)) {
     Iterator<Student> it = students.iterator();
@@ -151,7 +149,7 @@ public void timeClock() {
   noStroke();
   rectMode(CORNER);
   rect(0, 0, 100, 35); 
-  textSize(9);
+  textSize(12);
 
   //convert frames to total seconds.
 
@@ -334,9 +332,9 @@ class Buildings {
       //ellipse(xoffset, yoffset - 6 + (80*i), map(currentOccupancy[i], 0, 400, 30, 100), map(currentOccupancy[i], 0, 400, 30, 100));
 
       noStroke();
-      textSize(10);
+      textSize(12);
       textAlign(CENTER);
-      fill(30);
+      fill(240);
 
 
       text(names[i], building[i].x, building[i].y+4);
@@ -349,7 +347,7 @@ class Buildings {
       // text(utilizationString, building[i].x, building[i].y+14);
 
       fill(255);
-      textSize(9);
+      textSize(12);
       textAlign(LEFT);
 
       
@@ -518,13 +516,13 @@ class ParkingLots {
 
 
     fill(255);
-    textSize(9);
+    textSize(12);
     textAlign(LEFT);
     text("Parking Lot Capacity", 10, 75);
 
     for (int i=0; i<16; i++) {
       fill(255);
-      textSize(9);
+      textSize(12);
       textAlign(LEFT);
       text("Lot " + (i+1) + ": " + currentCapacity[i], 10, 75 + (16*(i+1)));
       
@@ -863,9 +861,9 @@ class Student {
         fill(255, 200, 20, 60);
       }
       else {
-        fill(255, 255, 20, 120);
+        fill(255, 255, 20, 180);
       }
-      rect(location.x, location.y, 2, 2);
+      rect(location.x, location.y, 4, 4);
     }
   }
 

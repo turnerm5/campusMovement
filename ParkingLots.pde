@@ -157,13 +157,13 @@ class ParkingLots {
 
 
     fill(255);
-    textSize(9);
+    textSize(12);
     textAlign(LEFT);
     text("Parking Lot Capacity", 10, 75);
 
     for (int i=0; i<16; i++) {
       fill(255);
-      textSize(9);
+      textSize(12);
       textAlign(LEFT);
       text("Lot " + (i+1) + ": " + currentCapacity[i], 10, 75 + (16*(i+1)));
       

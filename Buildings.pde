@@ -130,9 +130,9 @@ class Buildings {
       //ellipse(xoffset, yoffset - 6 + (80*i), map(currentOccupancy[i], 0, 400, 30, 100), map(currentOccupancy[i], 0, 400, 30, 100));
 
       noStroke();
-      textSize(10);
+      textSize(12);
       textAlign(CENTER);
-      fill(30);
+      fill(240);
 
 
       text(names[i], building[i].x, building[i].y+4);
@@ -145,7 +145,7 @@ class Buildings {
       // text(utilizationString, building[i].x, building[i].y+14);
 
       fill(255);
-      textSize(9);
+      textSize(12);
       textAlign(LEFT);
 
       

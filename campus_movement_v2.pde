@@ -23,7 +23,7 @@ int studentCount;
 
 void setup() {
   size(720, 830);
-  frameRate = 60;
+  frameRate = 120;
   students = new ArrayList<Student>();
   studentCount = 0;
 
@@ -32,7 +32,7 @@ void setup() {
 
   background(85);
   background = loadImage("campusmap.png");
-  tint(255, 255, 255, 85);
+  tint(255, 255, 255, 150);
   image(background, 0, 0);
 
   //get our Excel data
@@ -99,8 +99,6 @@ void draw() {
   lots.display();
   buildings.display();
   studentGraph();
-  //turn this on when rendering it.
-  //saveFrame("/frames/frame-#######.tif");
 
   if (mousePressed && (mouseButton == LEFT)) {
     Iterator<Student> it = students.iterator();
@@ -131,7 +129,7 @@ void timeClock() {
   noStroke();
   rectMode(CORNER);
   rect(0, 0, 100, 35); 
-  textSize(9);
+  textSize(12);
 
   //convert frames to total seconds.
 

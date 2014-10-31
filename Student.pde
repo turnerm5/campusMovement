@@ -329,9 +329,9 @@ class Student {
         fill(255, 200, 20, 60);
       }
       else {
-        fill(255, 255, 20, 120);
+        fill(255, 255, 20, 180);
       }
-      rect(location.x, location.y, 2, 2);
+      rect(location.x, location.y, 4, 4);
     }
   }
 
