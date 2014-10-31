@@ -27,8 +27,6 @@ public class campus_movement_v2 extends PApplet {
 
 
 
-
-
 int[] scheduleArray = new int[24];
 String cell;
 
@@ -112,19 +110,23 @@ public void draw() {
   
 
   //our campus map
-  // image(background, 0, 0);
+  //crop it nicely
   copy(backgroundImg,200,0,527,720,200,0,527,720);
   fill(85,150);
   rect(200, 0, width, 730);
 
+  //get those students running around
   manageStudents();
   timeClock();
 
+  //this should really be done with different image buffers, to layer things nicely
 
   lots.display();
   buildings.display();
   studentGraph();
 
+
+  //run away!!!
   if (mousePressed && (mouseButton == LEFT)) {
     Iterator<Student> it = students.iterator();
     while (it.hasNext ()) {
@@ -135,6 +137,8 @@ public void draw() {
   }
 }
 
+
+//Run through our ArrayList of students
 public void manageStudents() {
   Iterator<Student> it = students.iterator();
   while (it.hasNext ()) {
@@ -175,6 +179,8 @@ public void timeClock() {
   text("Students on Campus: " + studentCount, 10, 48);
 }
 
+
+//Draw some nice lines and times
 public void studentGraphSetup() {
   for (int i=0; i < 18; i++) {
     int xCoor = i * 43 + 27;
@@ -190,6 +196,8 @@ public void studentGraphSetup() {
   }
 }
 
+
+//Map the number of students on campus, from 0 to 5000.
 public void studentGraph() {
   int x = PApplet.parseInt(map(frameCount, 0, 6600, 5, 800));
   int y = PApplet.parseInt(map(studentCount, 0, 5000, height-1, height-90));
@@ -281,9 +289,8 @@ class Buildings {
     }
   }
 
-
-
   public void enterBuilding(PVector target) {
+    //I don't remember why I set it up this way...
     matchingIndex = 999;
 
     //if the target building matches one on our list, add one to the occupancy.
@@ -329,28 +336,28 @@ class Buildings {
       fill(255, 100);
 
       ellipseMode(CENTER);
+      
+      //I really like the map() function...
       ellipse(building[i].x, building[i].y, map(currentOccupancy[i], 0, 400, 28, 70), map(currentOccupancy[i], 0, 400, 28, 70));
-
-      //ellipse(xoffset, yoffset - 6 + (80*i), map(currentOccupancy[i], 0, 400, 30, 100), map(currentOccupancy[i], 0, 400, 30, 100));
 
       noStroke();
       textSize(12);
       textAlign(CENTER);
       fill(240);
 
-
       text(names[i], building[i].x, building[i].y+4);
 
+      //I'll leave this in for now. It'd be nice to graph the building utilization, like we do for the parking lots.
 
-      float utilization = PApplet.parseFloat(currentOccupancy[i]) / PApplet.parseFloat(capacity[i]);
-      utilization *= 100;
-      String utilizationString = nf(utilization,3,2);
+      // float utilization = float(currentOccupancy[i]) / float(capacity[i]);
+      // utilization *= 100;
+      // String utilizationString = nf(utilization,3,2);
 
       // text(utilizationString, building[i].x, building[i].y+14);
 
-      fill(255);
-      textSize(12);
-      textAlign(LEFT);
+      // fill(255);
+      // textSize(12);
+      // textAlign(LEFT);
 
       
       //text("Building " + i + ": " + utilizationString + "%", 10, 500 + (10 * i));
@@ -377,6 +384,8 @@ class ParkingLots {
 
   float shortestDistance = 100000;
   float distance;
+
+  int busGraphColor;
 
   ParkingLots() {
 
@@ -498,14 +507,12 @@ class ParkingLots {
     randomNumber = random(0, 1);
 
     //if there are lots available, and I'm not taking the bus, return the lot I should pick
-    if (shortlist.size() > 0 && randomNumber < .75f) { //this should be confirmed with a survey of how many people take the bus
-      
+    if (shortlist.size() > 0 && randomNumber < .70f) { //this should be confirmed with a survey of how many people take the bus
       //choose one of the lots off my possible list
       int randomLot = PApplet.parseInt(random(0, shortlist.size()));
       return lot.get(shortlist.get(randomLot));
     } 
     else {
-      
       //use a random bus stop
       float random = random(0, 1);
       if (random < .5f) {
@@ -527,7 +534,7 @@ class ParkingLots {
 
   public int indexLookup(PVector building) {
 
-    if (shortlist.size() > 0 && randomNumber < .75f) {
+    if (shortlist.size() > 0 && randomNumber < .70f) {
       return shortlist.get(0);
     } 
     else {
@@ -569,6 +576,8 @@ class ParkingLots {
     textAlign(LEFT);
     text("Parking Lot Use", 10, 75);
 
+    int totalCapacity = 0;
+
     for (int i=0; i<15; i++) {
       fill(255);
       textSize(10);
@@ -579,6 +588,8 @@ class ParkingLots {
       int x = PApplet.parseInt(map(frameCount, 0, 6600, 0, 135)) + 65;
       int y = offset - PApplet.parseInt(map(currentCapacity.get(i), 0, capacity.get(i), 25, 0));
       
+      totalCapacity += currentCapacity.get(i);
+
       if (currentCapacity.get(i) < 1){
         stroke(120, 0, 0, 50);
       } else {
@@ -593,7 +604,14 @@ class ParkingLots {
     int x = PApplet.parseInt(map(frameCount, 0, 6600, 0, 135)) + 65;
     int busRiders = (99999 - currentCapacity.get(16)) + (99999 - currentCapacity.get(17)) + (99999 - currentCapacity.get(18)) + (99999 - currentCapacity.get(19));
     int y = offset - PApplet.parseInt(map(busRiders, 0, 2000, 0, 25));
-    stroke(230, 50);
+    
+    if (totalCapacity < 10) {
+      busGraphColor = color(120, 0, 0, 50);
+    } else {
+      busGraphColor = color(230, 50);
+    }
+
+    stroke(busGraphColor);
     line(x, offset, x, y);
     text("Bus", 10, offset); 
   }
@@ -615,15 +633,21 @@ class Student {
 
   int arrival, departure, lunchTime;
 
+  int parkingXOffset, parkingYOffset;
+
   float topspeed;
   float maxforce;
 
   int travelBuffer = PApplet.parseInt(random(100, 200));
   int breaks[];
 
+  //They know when their periods start and end, and where they parked.
   int p1s, p1e, p2s, p2e, p3s, p3e, p4s, p4e, p5s, p5e, p6s, p6e, parkingSpotIndex;
+  
+  //They know where their buildings are.
   PVector p1b, p2b, p3b, p4b, p5b, p6b, parkingSpot, target;  
 
+  //There has to be a better way to initialize this, right?
   Student(
   int p1s_, 
   int p1e_, 
@@ -687,6 +711,8 @@ class Student {
 
     arrival = p1s - PApplet.parseInt((travelBuffer * 1.5f));
 
+    // set up some variation in when they leave class, to give it a sense of organic-ness
+
     if (p6e != 0) {
       departure = p6e + travelBuffer;
     } 
@@ -706,6 +732,8 @@ class Student {
       departure = p1e + travelBuffer;
     }
 
+    parkingXOffset = PApplet.parseInt(sqrt(random(0, 1)) * cos(random(0, 2 * PI)) * 30);
+    parkingYOffset = PApplet.parseInt(sqrt(random(0, 1)) * sin(random(0, 2 * PI)) * 30);
     parkingSpot = new PVector(0, 0);
     location = new PVector(0, 0);
     target = new PVector(0, 0);
@@ -729,9 +757,13 @@ class Student {
     acceleration.mult(0);
   } 
 
+
+
   public void getParking(ParkingLots lots) {
-    parkingSpot = lots.lookup(p1b).get();
-    parkingSpotIndex = lots.indexLookup(p1b);
+    parkingSpot = lots.lookup(p1b).get();  //give the parking lot object our first class. it'll tell us the location of where to park
+    parkingSpotIndex = lots.indexLookup(p1b); //And what number the lot is
+    parkingSpot.x += parkingXOffset;
+    parkingSpot.y += parkingYOffset;
   }
 
 
@@ -739,11 +771,9 @@ class Student {
 
     if (frameCount == arrival) {
       hasArrived = true;
-      getParking(lots);
+      getParking(lots); //check the lots for a parking spot
 
       location = parkingSpot.get();
-      location.x += PApplet.parseInt(random(-20, 20));
-      location.y += PApplet.parseInt(random(-20, 20));
       lots.removeParking(parkingSpotIndex);
       target = p1b.get();
       buildings.enterBuilding(target);
@@ -795,8 +825,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += PApplet.parseInt(random(-20, 20));
-        target.y += PApplet.parseInt(random(-20, 20));
       }
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
     }
@@ -810,8 +838,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += PApplet.parseInt(random(-20, 20));
-        target.y += PApplet.parseInt(random(-20, 20));
       }
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
     }
@@ -825,8 +851,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += PApplet.parseInt(random(-20, 20));
-        target.y += PApplet.parseInt(random(-20, 20));
       }
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
     }
@@ -840,8 +864,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += PApplet.parseInt(random(-20, 20));
-        target.y += PApplet.parseInt(random(-20, 20));
       }
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
     }
@@ -855,8 +877,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += PApplet.parseInt(random(-20, 20));
-        target.y += PApplet.parseInt(random(-20, 20));
       }
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
     }
@@ -865,8 +885,6 @@ class Student {
       buildings.leaveBuilding(target);
       leaving = true;
       target = parkingSpot.get();
-      target.x += PApplet.parseInt(random(-20, 20));
-      target.y += PApplet.parseInt(random(-20, 20));
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
     }
   }

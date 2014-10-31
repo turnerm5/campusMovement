@@ -17,6 +17,8 @@ class ParkingLots {
   float shortestDistance = 100000;
   float distance;
 
+  color busGraphColor;
+
   ParkingLots() {
 
     lot = new ArrayList<PVector>();
@@ -137,14 +139,12 @@ class ParkingLots {
     randomNumber = random(0, 1);
 
     //if there are lots available, and I'm not taking the bus, return the lot I should pick
-    if (shortlist.size() > 0 && randomNumber < .75) { //this should be confirmed with a survey of how many people take the bus
-      
+    if (shortlist.size() > 0 && randomNumber < .70) { //this should be confirmed with a survey of how many people take the bus
       //choose one of the lots off my possible list
       int randomLot = int(random(0, shortlist.size()));
       return lot.get(shortlist.get(randomLot));
     } 
     else {
-      
       //use a random bus stop
       float random = random(0, 1);
       if (random < .5) {
@@ -166,7 +166,7 @@ class ParkingLots {
 
   int indexLookup(PVector building) {
 
-    if (shortlist.size() > 0 && randomNumber < .75) {
+    if (shortlist.size() > 0 && randomNumber < .70) {
       return shortlist.get(0);
     } 
     else {
@@ -208,6 +208,8 @@ class ParkingLots {
     textAlign(LEFT);
     text("Parking Lot Use", 10, 75);
 
+    int totalCapacity = 0;
+
     for (int i=0; i<15; i++) {
       fill(255);
       textSize(10);
@@ -218,6 +220,8 @@ class ParkingLots {
       int x = int(map(frameCount, 0, 6600, 0, 135)) + 65;
       int y = offset - int(map(currentCapacity.get(i), 0, capacity.get(i), 25, 0));
       
+      totalCapacity += currentCapacity.get(i);
+
       if (currentCapacity.get(i) < 1){
         stroke(120, 0, 0, 50);
       } else {
@@ -232,7 +236,14 @@ class ParkingLots {
     int x = int(map(frameCount, 0, 6600, 0, 135)) + 65;
     int busRiders = (99999 - currentCapacity.get(16)) + (99999 - currentCapacity.get(17)) + (99999 - currentCapacity.get(18)) + (99999 - currentCapacity.get(19));
     int y = offset - int(map(busRiders, 0, 2000, 0, 25));
-    stroke(230, 50);
+    
+    if (totalCapacity < 10) {
+      busGraphColor = color(120, 0, 0, 50);
+    } else {
+      busGraphColor = color(230, 50);
+    }
+
+    stroke(busGraphColor);
     line(x, offset, x, y);
     text("Bus", 10, offset); 
   }

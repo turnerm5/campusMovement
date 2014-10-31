@@ -15,15 +15,21 @@ class Student {
 
   int arrival, departure, lunchTime;
 
+  int parkingXOffset, parkingYOffset;
+
   float topspeed;
   float maxforce;
 
   int travelBuffer = int(random(100, 200));
   int breaks[];
 
+  //They know when their periods start and end, and where they parked.
   int p1s, p1e, p2s, p2e, p3s, p3e, p4s, p4e, p5s, p5e, p6s, p6e, parkingSpotIndex;
+  
+  //They know where their buildings are.
   PVector p1b, p2b, p3b, p4b, p5b, p6b, parkingSpot, target;  
 
+  //There has to be a better way to initialize this, right?
   Student(
   int p1s_, 
   int p1e_, 
@@ -87,6 +93,8 @@ class Student {
 
     arrival = p1s - int((travelBuffer * 1.5));
 
+    // set up some variation in when they leave class, to give it a sense of organic-ness
+
     if (p6e != 0) {
       departure = p6e + travelBuffer;
     } 
@@ -106,6 +114,8 @@ class Student {
       departure = p1e + travelBuffer;
     }
 
+    parkingXOffset = int(sqrt(random(0, 1)) * cos(random(0, 2 * PI)) * 30);
+    parkingYOffset = int(sqrt(random(0, 1)) * sin(random(0, 2 * PI)) * 30);
     parkingSpot = new PVector(0, 0);
     location = new PVector(0, 0);
     target = new PVector(0, 0);
@@ -129,9 +139,13 @@ class Student {
     acceleration.mult(0);
   } 
 
+
+
   void getParking(ParkingLots lots) {
-    parkingSpot = lots.lookup(p1b).get();
-    parkingSpotIndex = lots.indexLookup(p1b);
+    parkingSpot = lots.lookup(p1b).get();  //give the parking lot object our first class. it'll tell us the location of where to park
+    parkingSpotIndex = lots.indexLookup(p1b); //And what number the lot is
+    parkingSpot.x += parkingXOffset;
+    parkingSpot.y += parkingYOffset;
   }
 
 
@@ -139,11 +153,9 @@ class Student {
 
     if (frameCount == arrival) {
       hasArrived = true;
-      getParking(lots);
+      getParking(lots); //check the lots for a parking spot
 
       location = parkingSpot.get();
-      location.x += int(random(-20, 20));
-      location.y += int(random(-20, 20));
       lots.removeParking(parkingSpotIndex);
       target = p1b.get();
       buildings.enterBuilding(target);
@@ -195,8 +207,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += int(random(-20, 20));
-        target.y += int(random(-20, 20));
       }
       applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
     }
@@ -210,8 +220,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += int(random(-20, 20));
-        target.y += int(random(-20, 20));
       }
       applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
     }
@@ -225,8 +233,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += int(random(-20, 20));
-        target.y += int(random(-20, 20));
       }
       applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
     }
@@ -240,8 +246,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += int(random(-20, 20));
-        target.y += int(random(-20, 20));
       }
       applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
     }
@@ -255,8 +259,6 @@ class Student {
       else {
         leaving = true;
         target = parkingSpot.get();
-        target.x += int(random(-20, 20));
-        target.y += int(random(-20, 20));
       }
       applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
     }
@@ -265,8 +267,6 @@ class Student {
       buildings.leaveBuilding(target);
       leaving = true;
       target = parkingSpot.get();
-      target.x += int(random(-20, 20));
-      target.y += int(random(-20, 20));
       applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
     }
   }

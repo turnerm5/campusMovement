@@ -77,9 +77,8 @@ class Buildings {
     }
   }
 
-
-
   void enterBuilding(PVector target) {
+    //I don't remember why I set it up this way...
     matchingIndex = 999;
 
     //if the target building matches one on our list, add one to the occupancy.
@@ -125,28 +124,28 @@ class Buildings {
       fill(255, 100);
 
       ellipseMode(CENTER);
+      
+      //I really like the map() function...
       ellipse(building[i].x, building[i].y, map(currentOccupancy[i], 0, 400, 28, 70), map(currentOccupancy[i], 0, 400, 28, 70));
-
-      //ellipse(xoffset, yoffset - 6 + (80*i), map(currentOccupancy[i], 0, 400, 30, 100), map(currentOccupancy[i], 0, 400, 30, 100));
 
       noStroke();
       textSize(12);
       textAlign(CENTER);
       fill(240);
 
-
       text(names[i], building[i].x, building[i].y+4);
 
+      //I'll leave this in for now. It'd be nice to graph the building utilization, like we do for the parking lots.
 
-      float utilization = float(currentOccupancy[i]) / float(capacity[i]);
-      utilization *= 100;
-      String utilizationString = nf(utilization,3,2);
+      // float utilization = float(currentOccupancy[i]) / float(capacity[i]);
+      // utilization *= 100;
+      // String utilizationString = nf(utilization,3,2);
 
       // text(utilizationString, building[i].x, building[i].y+14);
 
-      fill(255);
-      textSize(12);
-      textAlign(LEFT);
+      // fill(255);
+      // textSize(12);
+      // textAlign(LEFT);
 
       
       //text("Building " + i + ": " + utilizationString + "%", 10, 500 + (10 * i));

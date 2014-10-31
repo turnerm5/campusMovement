@@ -3,9 +3,7 @@
 //All rights reserved.
 
 import de.bezier.data.*;
-
 import java.util.Iterator;
-
 import java.util.Collections;
 
 int[] scheduleArray = new int[24];
@@ -91,19 +89,23 @@ void draw() {
   
 
   //our campus map
-  // image(background, 0, 0);
+  //crop it nicely
   copy(backgroundImg,200,0,527,720,200,0,527,720);
   fill(85,150);
   rect(200, 0, width, 730);
 
+  //get those students running around
   manageStudents();
   timeClock();
 
+  //this should really be done with different image buffers, to layer things nicely
 
   lots.display();
   buildings.display();
   studentGraph();
 
+
+  //run away!!!
   if (mousePressed && (mouseButton == LEFT)) {
     Iterator<Student> it = students.iterator();
     while (it.hasNext ()) {
@@ -114,6 +116,8 @@ void draw() {
   }
 }
 
+
+//Run through our ArrayList of students
 void manageStudents() {
   Iterator<Student> it = students.iterator();
   while (it.hasNext ()) {
@@ -154,6 +158,8 @@ void timeClock() {
   text("Students on Campus: " + studentCount, 10, 48);
 }
 
+
+//Draw some nice lines and times
 void studentGraphSetup() {
   for (int i=0; i < 18; i++) {
     int xCoor = i * 43 + 27;
@@ -169,6 +175,8 @@ void studentGraphSetup() {
   }
 }
 
+
+//Map the number of students on campus, from 0 to 5000.
 void studentGraph() {
   int x = int(map(frameCount, 0, 6600, 5, 800));
   int y = int(map(studentCount, 0, 5000, height-1, height-90));
