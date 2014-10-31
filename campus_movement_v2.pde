@@ -6,6 +6,8 @@ import de.bezier.data.*;
 
 import java.util.Iterator;
 
+import java.util.Collections;
+
 int[] scheduleArray = new int[24];
 String cell;
 
