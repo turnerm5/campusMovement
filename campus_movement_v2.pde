@@ -15,7 +15,7 @@ XlsReader reader;
 ParkingLots lots;
 Buildings buildings;
 
-PImage background; 
+PImage backgroundImg; 
 
 int frameInterval;
 int periodDisplay;
@@ -31,9 +31,9 @@ void setup() {
   buildings = new Buildings();
 
   background(85);
-  background = loadImage("campusmap.png");
-  tint(255, 255, 255, 150);
-  image(background, 0, 0);
+  backgroundImg = loadImage("campusmap.jpg");
+  // tint(255, 255, 255, 150);
+  // image(background, 0, 0);
 
   //get our Excel data
   reader = new XlsReader(this, "studentdata.xls");
@@ -84,13 +84,15 @@ void setup() {
 void draw() {
 
   //can't use background(), since we'd erase the cool graph at the bottom
-  fill(85);
   noStroke();
   rectMode(CORNER);
-  rect(200, 0, width, 730);
+  
 
   //our campus map
-  image(background, 0, 0);
+  // image(background, 0, 0);
+  copy(backgroundImg,200,0,527,720,200,0,527,720);
+  fill(85,150);
+  rect(200, 0, width, 730);
 
   manageStudents();
   timeClock();
