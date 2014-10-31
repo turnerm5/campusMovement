@@ -107,7 +107,7 @@ public void draw() {
   fill(85);
   noStroke();
   rectMode(CORNER);
-  rect(0, 0, width, 730);
+  rect(200, 0, width, 730);
 
   //our campus map
   image(background, 0, 0);
@@ -148,7 +148,7 @@ public void timeClock() {
   fill(85);
   noStroke();
   rectMode(CORNER);
-  rect(0, 0, 100, 35); 
+  rect(0, 0, 200, 80); 
   textSize(12);
 
   //convert frames to total seconds.
@@ -184,7 +184,6 @@ public void studentGraphSetup() {
     text(hours + ":00", xCoor-4, height-93);
   }
 }
-
 
 public void studentGraph() {
   int x = PApplet.parseInt(map(frameCount, 0, 6600, 5, 800));
@@ -527,22 +526,30 @@ class ParkingLots {
     fill(85);
     noStroke();
     rectMode(CORNER);
-    rect(0, 50, 120, 300); 
-
+    rect(0, 80, 43, 630);
 
     fill(255);
     textSize(12);
     textAlign(LEFT);
-    text("Parking Lot Capacity", 10, 75);
+    text("Parking Lot Use", 10, 75);
 
     for (int i=0; i<16; i++) {
       fill(255);
-      textSize(12);
-      textAlign(LEFT);
-      text("Lot " + (i+1) + ": " + currentCapacity[i], 10, 75 + (16*(i+1)));
+      textSize(10);
+      int offset = 72 + (38*(i+1));
+      int x = PApplet.parseInt(map(frameCount, 0, 6600, 0, 145)) + 50;
+      int y = offset - PApplet.parseInt(map(currentCapacity[i], 0, capacity[i], 25, 0));
       
+      if (currentCapacity[i] < 1){
+      stroke(120, 0, 0, 50);
+      } else {
+        stroke(230, 50);
+      }
+      
+
+      line(x, offset, x, y);
+      text("Lot " + (i+1), 10, offset);      
     }
-      text("Not Driving: " + ((99999 - currentCapacity[16]) + (99999 - currentCapacity[17]) + (99999 - currentCapacity[18]) + (99999 - currentCapacity[19])), 10, 350);
   }
 }
 

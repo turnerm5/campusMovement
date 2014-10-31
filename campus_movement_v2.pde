@@ -87,7 +87,7 @@ void draw() {
   fill(85);
   noStroke();
   rectMode(CORNER);
-  rect(0, 0, width, 730);
+  rect(200, 0, width, 730);
 
   //our campus map
   image(background, 0, 0);
@@ -128,7 +128,7 @@ void timeClock() {
   fill(85);
   noStroke();
   rectMode(CORNER);
-  rect(0, 0, 100, 35); 
+  rect(0, 0, 200, 80); 
   textSize(12);
 
   //convert frames to total seconds.
@@ -164,7 +164,6 @@ void studentGraphSetup() {
     text(hours + ":00", xCoor-4, height-93);
   }
 }
-
 
 void studentGraph() {
   int x = int(map(frameCount, 0, 6600, 5, 800));

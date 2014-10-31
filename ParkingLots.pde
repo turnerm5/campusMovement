@@ -170,21 +170,29 @@ class ParkingLots {
     fill(85);
     noStroke();
     rectMode(CORNER);
-    rect(0, 50, 120, 300); 
-
+    rect(0, 80, 43, 630);
 
     fill(255);
     textSize(12);
     textAlign(LEFT);
-    text("Parking Lot Capacity", 10, 75);
+    text("Parking Lot Use", 10, 75);
 
     for (int i=0; i<16; i++) {
       fill(255);
-      textSize(12);
-      textAlign(LEFT);
-      text("Lot " + (i+1) + ": " + currentCapacity[i], 10, 75 + (16*(i+1)));
+      textSize(10);
+      int offset = 72 + (38*(i+1));
+      int x = int(map(frameCount, 0, 6600, 0, 145)) + 50;
+      int y = offset - int(map(currentCapacity[i], 0, capacity[i], 25, 0));
       
+      if (currentCapacity[i] < 1){
+      stroke(120, 0, 0, 50);
+      } else {
+        stroke(230, 50);
+      }
+      
+
+      line(x, offset, x, y);
+      text("Lot " + (i+1), 10, offset);      
     }
-      text("Not Driving: " + ((99999 - currentCapacity[16]) + (99999 - currentCapacity[17]) + (99999 - currentCapacity[18]) + (99999 - currentCapacity[19])), 10, 350);
   }
 }
