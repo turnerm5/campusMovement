@@ -22,7 +22,7 @@ int periodDisplay;
 int studentCount;
 
 void setup() {
-  size(720, 830);
+  size(740, 830);
   frameRate = 120;
   students = new ArrayList<Student>();
   studentCount = 0;

@@ -28,14 +28,14 @@ class ParkingLots {
     name = new ArrayList<String>();
 
     //This should be optimized to have a table, instead of hard-coded values
-    lot.add(0, new PVector(301, 380));
-    lot.add(1, new PVector(420, 378));
+    lot.add(0, new PVector(298, 380));
+    lot.add(1, new PVector(415, 378));
     lot.add(2, new PVector(429, 314));
     lot.add(3, new PVector(499, 250));
-    lot.add(4, new PVector(497, 425));
+    lot.add(4, new PVector(497, 420));
     lot.add(5, new PVector(465, 428));
     lot.add(6, new PVector(460, 572));
-    lot.add(7, new PVector(502, 560));
+    lot.add(7, new PVector(495, 565));
     lot.add(8, new PVector(495, 650));
     lot.add(9, new PVector(410, 629));
     lot.add(10, new PVector(317, 647));
@@ -237,7 +237,7 @@ class ParkingLots {
     int busRiders = (99999 - currentCapacity.get(16)) + (99999 - currentCapacity.get(17)) + (99999 - currentCapacity.get(18)) + (99999 - currentCapacity.get(19));
     int y = offset - int(map(busRiders, 0, 2000, 0, 25));
     
-    if (totalCapacity < 10) {
+    if (totalCapacity < 300) {
       busGraphColor = color(120, 0, 0, 50);
     } else {
       busGraphColor = color(230, 50);
