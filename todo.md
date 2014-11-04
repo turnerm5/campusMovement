@@ -11,9 +11,10 @@
 -	Add path finding with A*
 -	Make sure students arrive to campus with enough time to park
 -	Restructure image layering (PGraphics buffer?)
--	Remove hard-coded values for building locations and class times.
+-	Remove hard-coded values for building locations and class times. Use separate tables instead.
 -	Make tool to parse College's data into a format we can use, so we can quickly visualize other dates.
--	Document what it'll take to get this set up for another campus.
+-	Document what it'll take to get this set up for another campus. (LCC, Skagit)
 
 ##Low Priority
 -	Add controls for student clustering (after path finding is implemented)
+-	Flocking? Not sure what it'd get us, but nice to see.
