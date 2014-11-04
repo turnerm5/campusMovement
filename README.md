@@ -7,3 +7,7 @@ Our immediate goal is to use real data from the College, including student sched
 ##Libraries
 
 This sketch requires the [XlsReader library](https://github.com/fjenett/xlsreader-library-processing).
+
+##Folder Names
+
+Because Processing is finnicky about how folders and files are named, make sure the file is in a folder named "campusMovement".

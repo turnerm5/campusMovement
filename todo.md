@@ -1,7 +1,7 @@
 #To-Do List
 
 ##High Priority
--	Completely comment code
+-	Completely comment code.
 
 ##Standard Priority
 -	Separate frameCount and time clock. Is there a better way to do this? How can we scrub through the day? Export to a movie seems easy.
