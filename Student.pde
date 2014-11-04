@@ -7,17 +7,19 @@
 import java.util.Iterator;
 
 class Student {
+  
+  //standard movement vectors
   PVector location;
   PVector velocity;
   PVector acceleration;
 
   boolean hasLeft, hasArrived, visible, leaving, getsLunch;
 
+  //What time do I arrive? What time do I leave? When am I getting lunch?
   int arrival, departure, lunchTime;
 
+  //
   int parkingXOffset, parkingYOffset;
-
-  boolean moving;
 
   float topspeed;
   float maxforce;
@@ -62,7 +64,6 @@ class Student {
     leaving = false;
     visible = false;
     getsLunch = false;
-    moving = false;
 
     breaks = new int[5];
 
@@ -88,16 +89,17 @@ class Student {
     p5b = p5b_;
     p6b = p6b_;
 
+    //what are the gaps in the day's schedule?
     breaks[0] = p2s - p1e;
     breaks[1] = p3s - p2e;
     breaks[2] = p4s - p3e;
     breaks[3] = p5s - p4e;
     breaks[4] = p6s - p5e;
 
+    // set up some variation in when they leave class, to give it a sense of organic-ness
     arrival = p1s - travelBuffer;
 
-    // set up some variation in when they leave class, to give it a sense of organic-ness
-
+    
     if (p6e != 0) {
       departure = p6e + travelBuffer;
     } 
@@ -129,7 +131,7 @@ class Student {
     topspeed = topspeed_;
     maxforce = 0.15;
 
-    checkLunch();
+    checkLunch(); //Where should I get lunch today?
   }
 
 
@@ -177,8 +179,7 @@ class Student {
   }
 
 
-  //This may be a clunky way to do this. If they have a long break, and it's between 11:00 and 1:00 pm, consider
-  //that student to get lunch. 
+  //This is a clunky way to do this. If they have a long break, and it's between 11:00 and 1:00 pm.
   void checkLunch() {
     if (breaks[0] > 180 && p1e > 2140 && p1e < 2860) {
       getsLunch = true;
@@ -351,7 +352,7 @@ class Student {
   }
 
   boolean isMoving() {  //count me if i'm moving
-    if (velocity.mag() > .75) {
+    if (velocity.mag() > .75) { //This seems to be a good threshold.
       return true;
     } else {
       return false;
