@@ -28,13 +28,13 @@ void setup() {
   students = new ArrayList<Student>();
   studentCount = 0;
   studentMovingCount = 0;
+  
+  // We should actually have a Lot and Building class, and then initalize instances of them.
   lots = new ParkingLots();
   buildings = new Buildings();
 
   background(85);
   backgroundImg = loadImage("campusmap.jpg");
-  // tint(255, 255, 255, 150);
-  // image(background, 0, 0);
 
   //get our Excel data
   reader = new XlsReader(this, "studentdata.xls");
@@ -48,36 +48,36 @@ void setup() {
       reader.nextCell();
     }
 
-    //initialize our students. This should really be done with an array.
+    //initialize our students.
 
     //Class times
     students.add(new Student(
-    scheduleArray[0], 
-    scheduleArray[1], 
-    scheduleArray[4], 
-    scheduleArray[5], 
-    scheduleArray[8], 
-    scheduleArray[9], 
-    scheduleArray[12], 
-    scheduleArray[13], 
-    scheduleArray[16], 
-    scheduleArray[17], 
-    scheduleArray[20], 
-    scheduleArray[21], 
+      scheduleArray[0], 
+      scheduleArray[1], 
+      scheduleArray[4], 
+      scheduleArray[5], 
+      scheduleArray[8], 
+      scheduleArray[9], 
+      scheduleArray[12], 
+      scheduleArray[13], 
+      scheduleArray[16], 
+      scheduleArray[17], 
+      scheduleArray[20], 
+      scheduleArray[21], 
 
 
-    //Their class locations
-    new PVector (scheduleArray[2], scheduleArray[3]), 
-    new PVector (scheduleArray[6], scheduleArray[7]), 
-    new PVector (scheduleArray[10], scheduleArray[11]), 
-    new PVector (scheduleArray[14], scheduleArray[15]), 
-    new PVector (scheduleArray[18], scheduleArray[19]), 
-    new PVector (scheduleArray[22], scheduleArray[23]), 
+      //Their class locations
+      new PVector (scheduleArray[2], scheduleArray[3]), 
+      new PVector (scheduleArray[6], scheduleArray[7]), 
+      new PVector (scheduleArray[10], scheduleArray[11]), 
+      new PVector (scheduleArray[14], scheduleArray[15]), 
+      new PVector (scheduleArray[18], scheduleArray[19]), 
+      new PVector (scheduleArray[22], scheduleArray[23]), 
 
-    //Student speed
-    random(2, 3)
-      )
-      );
+      //Student speed
+      random(2, 3)
+    )
+    );
   }
   studentGraphSetup();
 }
