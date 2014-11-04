@@ -99,7 +99,7 @@ class Student {
     // set up some variation in when they leave class, to give it a sense of organic-ness
     arrival = p1s - travelBuffer;
 
-    
+    //Is there a cleaner way to code this?
     if (p6e != 0) {
       departure = p6e + travelBuffer;
     } 
@@ -129,6 +129,8 @@ class Student {
     velocity = new PVector();
     acceleration = new PVector();   
     topspeed = topspeed_;
+    
+    //how quickly can our students steer? Changing this gives some 
     maxforce = 0.15;
 
     checkLunch(); //Where should I get lunch today?
