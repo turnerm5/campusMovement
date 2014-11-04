@@ -341,6 +341,11 @@ class Student {
       else {
         fill(255, 255, 20, 180);
       }
+
+      if (velocity.mag() < .5){
+        fill(0, 0);
+      }
+
       rect(location.x, location.y, 4, 4);
     }
   }

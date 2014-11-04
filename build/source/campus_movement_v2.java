@@ -206,7 +206,6 @@ public void studentGraphSetup() {
   }
 }
 
-
 //Map the number of students on campus, from 0 to 5000.
 public void studentGraph() {
   int x = PApplet.parseInt(map(frameCount, 0, 6600, 5, 800));
@@ -349,7 +348,7 @@ class Buildings {
       noStroke();
       strokeWeight(1);
 
-      fill(255, 100);
+      fill(255, 50);
 
       ellipseMode(CENTER);
       
@@ -975,6 +974,11 @@ class Student {
       else {
         fill(255, 255, 20, 180);
       }
+
+      if (velocity.mag() < .5f){
+        fill(0, 0);
+      }
+
       rect(location.x, location.y, 4, 4);
     }
   }
@@ -989,16 +993,16 @@ class Student {
 
   public void run() {
     checkOnCampus(); //Is the student on campus yet?
-    goToClass(); 
-    getLunch(); 
-    seek(target);
-    update();
-    drawStudent();
+    goToClass(); //Is it time to go to a new class? Where do I go?
+    getLunch(); //Do I get lunch? Where do I go?
+    seek(target); //Go to my target!
+    update(); //Apply our physics formulas
+    drawStudent(); //Draw me
   }
 
-  public void explode(PVector gunpowder) {
+  public void explode(PVector gunpowder) {  //Something fun
 
-    //the vector now goes between the mouse and the superPixel
+    //the vector now goes between the mouse and the student
     gunpowder.sub(location);
 
     //check the distance between the two

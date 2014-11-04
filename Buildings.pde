@@ -124,7 +124,7 @@ class Buildings {
       noStroke();
       strokeWeight(1);
 
-      fill(255, 100);
+      fill(255, 50);
 
       ellipseMode(CENTER);
       
