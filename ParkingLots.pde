@@ -68,7 +68,7 @@ class ParkingLots {
     name.add(15, "");
 
     //edmonds lots
-    capacity.add(0, 163);
+    capacity.add(0, 0);
     capacity.add(1, 130);
     capacity.add(2, 139);
     capacity.add(3, 285);
