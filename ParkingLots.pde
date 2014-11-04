@@ -234,6 +234,8 @@ class ParkingLots {
 
     int offset = 72 + (38*(15+1));
     int x = int(map(frameCount, 0, 6600, 0, 135)) + 65;
+    
+    //count the bus riders. This should be done in a better way.
     int busRiders = (99999 - currentCapacity.get(16)) + (99999 - currentCapacity.get(17)) + (99999 - currentCapacity.get(18)) + (99999 - currentCapacity.get(19));
     int y = offset - int(map(busRiders, 0, 2000, 0, 25));
     

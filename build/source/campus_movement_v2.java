@@ -617,6 +617,8 @@ class ParkingLots {
 
     int offset = 72 + (38*(15+1));
     int x = PApplet.parseInt(map(frameCount, 0, 6600, 0, 135)) + 65;
+    
+    //count the bus riders. This should be done in a better way.
     int busRiders = (99999 - currentCapacity.get(16)) + (99999 - currentCapacity.get(17)) + (99999 - currentCapacity.get(18)) + (99999 - currentCapacity.get(19));
     int y = offset - PApplet.parseInt(map(busRiders, 0, 2000, 0, 25));
     
@@ -655,7 +657,7 @@ class Student {
   float topspeed;
   float maxforce;
 
-  int travelBuffer = PApplet.parseInt(random(100, 200));
+  int travelBuffer = PApplet.parseInt(random(200, 300));
   int breaks[];
 
   //They know when their periods start and end, and where they parked.
@@ -727,7 +729,7 @@ class Student {
     breaks[3] = p5s - p4e;
     breaks[4] = p6s - p5e;
 
-    arrival = p1s - PApplet.parseInt((travelBuffer * 1.5f));
+    arrival = p1s - travelBuffer;
 
     // set up some variation in when they leave class, to give it a sense of organic-ness
 

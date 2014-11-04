@@ -22,7 +22,7 @@ class Student {
   float topspeed;
   float maxforce;
 
-  int travelBuffer = int(random(100, 200));
+  int travelBuffer = int(random(200, 300));
   int breaks[];
 
   //They know when their periods start and end, and where they parked.
@@ -94,7 +94,7 @@ class Student {
     breaks[3] = p5s - p4e;
     breaks[4] = p6s - p5e;
 
-    arrival = p1s - int((travelBuffer * 1.5));
+    arrival = p1s - travelBuffer;
 
     // set up some variation in when they leave class, to give it a sense of organic-ness
 
