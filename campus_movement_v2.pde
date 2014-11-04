@@ -185,7 +185,6 @@ void studentGraphSetup() {
   }
 }
 
-
 //Map the number of students on campus, from 0 to 5000.
 void studentGraph() {
   int x = int(map(frameCount, 0, 6600, 5, 800));

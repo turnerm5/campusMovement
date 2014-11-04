@@ -762,6 +762,8 @@ class Student {
     acceleration = new PVector();   
     topspeed = topspeed_;
     maxforce = 0.15f;
+
+    checkLunch();
   }
 
 
@@ -840,13 +842,13 @@ class Student {
     //there has to be a better way to do this...
 
     if (frameCount == p1e) { 
-      buildings.leaveBuilding(target);
-      if (p2s != 0) {  
-        target = p2b.get();
-        buildings.enterBuilding(target);
+      buildings.leaveBuilding(target); //leave my current target
+      if (p2s != 0) {  //if I have a class next in my schedule
+        target = p2b.get(); //get my new target
+        buildings.enterBuilding(target); //go to my new target
       } 
       else {
-        leaving = true;
+        leaving = true; 
         target = parkingSpot.get();
       }
       applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
@@ -913,45 +915,46 @@ class Student {
   }
 
   public void getLunch() {
-    if (getsLunch) {
-      float test = random(0, 1);
+    if (getsLunch) { //if I get lunch
+      float test = random(0, 1); //where should I get lunch?
       if (test < .7f) {
         if (frameCount == lunchTime) {
-          target = new PVector(435, 465);
+          target = new PVector(435, 465); //cafeteria 1
           buildings.enterBuilding(target);
         }
       } 
       else if (test < .85f) {
         if (frameCount == lunchTime) {  
-          target = new PVector(348, 468);
+          target = new PVector(348, 468); //cafeteria 2
           buildings.enterBuilding(target);
         }
       } 
       else if (test < 1) {
         if (frameCount == lunchTime) {  
-          target = new PVector(348, 600);
+          target = new PVector(348, 600); //cafeteria 3
           buildings.enterBuilding(target);
         }
       }
     }
   }  
 
+
   //seek the building
   public void seek(PVector target_) {
-    PVector desired = PVector.sub(target_, location);
-    float d = desired.mag();
+    PVector desired = PVector.sub(target_, location); //get the vector between my current location and my target
+    float d = desired.mag(); //what is the current distance away?
     desired.normalize();
 
-    if (d <30) {
+    if (d <30) {  //if I'm close
       //arrive slowly
       float m = map(d, 0, 50, .25f, topspeed);
       desired.mult(m);
     } 
-    else {
-      desired.mult(topspeed);
+    else { //if I'm not close
+      desired.mult(topspeed); //go fast! 
     }
 
-    PVector steer = PVector.sub(desired, velocity);
+    PVector steer = PVector.sub(desired, velocity); //get the steering force to apply
 
     //how quickly do our students steer?
     steer.limit(maxforce);
@@ -965,7 +968,7 @@ class Student {
       rectMode(CENTER);
       colorMode(RGB);
 
-      noStroke();
+      noStroke(); //if I'm leaving, make me lighter
       if (leaving) {
         fill(255, 200, 20, 60);
       }
@@ -976,7 +979,7 @@ class Student {
     }
   }
 
-  public boolean isMoving() {
+  public boolean isMoving() {  //count me if i'm moving
     if (velocity.mag() > .75f) {
       return true;
     } else {
@@ -985,8 +988,7 @@ class Student {
   };
 
   public void run() {
-    checkOnCampus();
-    checkLunch();
+    checkOnCampus(); //Is the student on campus yet?
     goToClass(); 
     getLunch(); 
     seek(target);
