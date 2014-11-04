@@ -1,12 +1,13 @@
 #To-Do List
 
 ##High Priority
--	Graph building utilization
 -	Completely comment code
--	Make table parsing more adaptive to other excel formats
--	Write more efficient goToClass routine in the Student class
 
 ##Standard Priority
+-	Separate frameCount and time clock. Is there a better way to do this? How can we scrub through the day? Export to a movie seems easy.
+-	Graph building utilization
+-	Make table parsing more adaptive to other excel formats
+-	Write more efficient goToClass routine in the Student class
 -	Add path finding with A*
 -	Make sure students arrive to campus with enough time to park
 -	Restructure image layering (PGraphics buffer?)
