@@ -6,8 +6,4 @@ Our immediate goal is to use real data from the College, including student sched
 
 ##Libraries
 
-This 
-import de.bezier.data.*;
-import java.util.Iterator;
-import java.util.Collections;
-
+This sketch requires the [XlsReader library](https://github.com/fjenett/xlsreader-library-processing)
