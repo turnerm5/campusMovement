@@ -20,13 +20,14 @@ PImage backgroundImg;
 int frameInterval;
 int periodDisplay;
 int studentCount;
+int studentMovingCount;
 
 void setup() {
   size(740, 830);
   frameRate = 120;
   students = new ArrayList<Student>();
   studentCount = 0;
-
+  studentMovingCount = 0;
   lots = new ParkingLots();
   buildings = new Buildings();
 
@@ -96,6 +97,7 @@ void draw() {
 
   //get those students running around
   manageStudents();
+  countMovingStudents();
   timeClock();
 
   //this should really be done with different image buffers, to layer things nicely
@@ -122,15 +124,23 @@ void manageStudents() {
   Iterator<Student> it = students.iterator();
   while (it.hasNext ()) {
     Student s = it.next();    
-    //s.follow(flow);
     s.run();
-
     if (s.hasLeft) {
       it.remove();
     }
   }
 }
 
+void countMovingStudents() {
+  studentMovingCount = 0;
+  Iterator<Student> it = students.iterator();
+  while (it.hasNext ()) {
+    Student s = it.next();    
+    if (s.isMoving()) {
+      studentMovingCount++;
+    }
+  }
+}
 
 void timeClock() {
   fill(85);
@@ -180,8 +190,11 @@ void studentGraphSetup() {
 void studentGraph() {
   int x = int(map(frameCount, 0, 6600, 5, 800));
   int y = int(map(studentCount, 0, 5000, height-1, height-90));
+  int y2 = int(map(studentMovingCount, 0, 5000, height-1, height-90));
   stroke(230, 50);
   line(x+2, height, x+2, y);
+  stroke(0,0,100, 50);
+  line(x+2, height, x+2, y2);
 }
 
 void keyPressed() {

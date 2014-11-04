@@ -78,6 +78,8 @@ class Buildings {
   }
 
   void enterBuilding(PVector target) {
+    
+
     //I don't remember why I set it up this way...
     matchingIndex = 999;
 
@@ -96,6 +98,7 @@ class Buildings {
   }
 
   void leaveBuilding(PVector target) {
+
     matchingIndex = 999;
 
     //if the target building matches one on our list, subtract one from the occupancy.

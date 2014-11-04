@@ -17,6 +17,8 @@ class Student {
 
   int parkingXOffset, parkingYOffset;
 
+  boolean moving;
+
   float topspeed;
   float maxforce;
 
@@ -60,6 +62,7 @@ class Student {
     leaving = false;
     visible = false;
     getsLunch = false;
+    moving = false;
 
     breaks = new int[5];
 
@@ -114,6 +117,7 @@ class Student {
       departure = p1e + travelBuffer;
     }
 
+    //they start from a spot a random distance away from the center of the parking lot
     parkingXOffset = int(sqrt(random(0, 1)) * cos(random(0, 2 * PI)) * 30);
     parkingYOffset = int(sqrt(random(0, 1)) * sin(random(0, 2 * PI)) * 30);
     parkingSpot = new PVector(0, 0);
@@ -139,8 +143,6 @@ class Student {
     acceleration.mult(0);
   } 
 
-
-
   void getParking(ParkingLots lots) {
     parkingSpot = lots.lookup(p1b).get();  //give the parking lot object our first class. it'll tell us the location of where to park
     parkingSpotIndex = lots.indexLookup(p1b); //And what number the lot is
@@ -155,23 +157,26 @@ class Student {
       hasArrived = true;
       getParking(lots); //check the lots for a parking spot
 
-      location = parkingSpot.get();
-      lots.removeParking(parkingSpotIndex);
-      target = p1b.get();
-      buildings.enterBuilding(target);
-      applyForce(new PVector(random(-.5, .5), random(-.5, .5)));
-      visible = true;
-      studentCount += 1;
+      location = parkingSpot.get(); //where should I park?
+      lots.removeParking(parkingSpotIndex);  //remove that parking spot from the list of available spots
+      target = p1b.get(); //where is my first building?
+      buildings.enterBuilding(target); //go into the building
+      applyForce(new PVector(random(-.5, .5), random(-.5, .5))); //apply a small force to give it a little sense of playfulness
+      visible = true; //we can see the student!
+      studentCount += 1; //add it to the list of total students on campus
     }
 
     if (frameCount == departure) {
       hasLeft = true;
       studentCount -= 1;
       visible = false;
-      lots.addParking(parkingSpotIndex);
+      lots.addParking(parkingSpotIndex); //add that parking spot to the list of available spots
     }
   }
 
+
+  //This may be a clunky way to do this. If they have a long break, and it's between 11:00 and 1:00 pm, consider
+  //that student to get lunch. 
   void checkLunch() {
     if (breaks[0] > 180 && p1e > 2140 && p1e < 2860) {
       getsLunch = true;
@@ -197,6 +202,8 @@ class Student {
 
 
   void goToClass() {
+
+    //there has to be a better way to do this...
 
     if (frameCount == p1e) { 
       buildings.leaveBuilding(target);
@@ -334,6 +341,14 @@ class Student {
       rect(location.x, location.y, 4, 4);
     }
   }
+
+  boolean isMoving() {
+    if (velocity.mag() > .75) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   void run() {
     checkOnCampus();

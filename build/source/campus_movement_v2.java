@@ -41,13 +41,14 @@ PImage backgroundImg;
 int frameInterval;
 int periodDisplay;
 int studentCount;
+int studentMovingCount;
 
 public void setup() {
   size(740, 830);
   frameRate = 120;
   students = new ArrayList<Student>();
   studentCount = 0;
-
+  studentMovingCount = 0;
   lots = new ParkingLots();
   buildings = new Buildings();
 
@@ -117,6 +118,7 @@ public void draw() {
 
   //get those students running around
   manageStudents();
+  countMovingStudents();
   timeClock();
 
   //this should really be done with different image buffers, to layer things nicely
@@ -143,15 +145,23 @@ public void manageStudents() {
   Iterator<Student> it = students.iterator();
   while (it.hasNext ()) {
     Student s = it.next();    
-    //s.follow(flow);
     s.run();
-
     if (s.hasLeft) {
       it.remove();
     }
   }
 }
 
+public void countMovingStudents() {
+  studentMovingCount = 0;
+  Iterator<Student> it = students.iterator();
+  while (it.hasNext ()) {
+    Student s = it.next();    
+    if (s.isMoving()) {
+      studentMovingCount++;
+    }
+  }
+}
 
 public void timeClock() {
   fill(85);
@@ -201,8 +211,11 @@ public void studentGraphSetup() {
 public void studentGraph() {
   int x = PApplet.parseInt(map(frameCount, 0, 6600, 5, 800));
   int y = PApplet.parseInt(map(studentCount, 0, 5000, height-1, height-90));
+  int y2 = PApplet.parseInt(map(studentMovingCount, 0, 5000, height-1, height-90));
   stroke(230, 50);
   line(x+2, height, x+2, y);
+  stroke(0,0,100, 50);
+  line(x+2, height, x+2, y2);
 }
 
 public void keyPressed() {
@@ -290,6 +303,8 @@ class Buildings {
   }
 
   public void enterBuilding(PVector target) {
+    
+
     //I don't remember why I set it up this way...
     matchingIndex = 999;
 
@@ -308,6 +323,7 @@ class Buildings {
   }
 
   public void leaveBuilding(PVector target) {
+
     matchingIndex = 999;
 
     //if the target building matches one on our list, subtract one from the occupancy.
@@ -635,6 +651,8 @@ class Student {
 
   int parkingXOffset, parkingYOffset;
 
+  boolean moving;
+
   float topspeed;
   float maxforce;
 
@@ -678,6 +696,7 @@ class Student {
     leaving = false;
     visible = false;
     getsLunch = false;
+    moving = false;
 
     breaks = new int[5];
 
@@ -732,6 +751,7 @@ class Student {
       departure = p1e + travelBuffer;
     }
 
+    //they start from a spot a random distance away from the center of the parking lot
     parkingXOffset = PApplet.parseInt(sqrt(random(0, 1)) * cos(random(0, 2 * PI)) * 30);
     parkingYOffset = PApplet.parseInt(sqrt(random(0, 1)) * sin(random(0, 2 * PI)) * 30);
     parkingSpot = new PVector(0, 0);
@@ -757,8 +777,6 @@ class Student {
     acceleration.mult(0);
   } 
 
-
-
   public void getParking(ParkingLots lots) {
     parkingSpot = lots.lookup(p1b).get();  //give the parking lot object our first class. it'll tell us the location of where to park
     parkingSpotIndex = lots.indexLookup(p1b); //And what number the lot is
@@ -773,23 +791,26 @@ class Student {
       hasArrived = true;
       getParking(lots); //check the lots for a parking spot
 
-      location = parkingSpot.get();
-      lots.removeParking(parkingSpotIndex);
-      target = p1b.get();
-      buildings.enterBuilding(target);
-      applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f)));
-      visible = true;
-      studentCount += 1;
+      location = parkingSpot.get(); //where should I park?
+      lots.removeParking(parkingSpotIndex);  //remove that parking spot from the list of available spots
+      target = p1b.get(); //where is my first building?
+      buildings.enterBuilding(target); //go into the building
+      applyForce(new PVector(random(-.5f, .5f), random(-.5f, .5f))); //apply a small force to give it a little sense of playfulness
+      visible = true; //we can see the student!
+      studentCount += 1; //add it to the list of total students on campus
     }
 
     if (frameCount == departure) {
       hasLeft = true;
       studentCount -= 1;
       visible = false;
-      lots.addParking(parkingSpotIndex);
+      lots.addParking(parkingSpotIndex); //add that parking spot to the list of available spots
     }
   }
 
+
+  //This may be a clunky way to do this. If they have a long break, and it's between 11:00 and 1:00 pm, consider
+  //that student to get lunch. 
   public void checkLunch() {
     if (breaks[0] > 180 && p1e > 2140 && p1e < 2860) {
       getsLunch = true;
@@ -815,6 +836,8 @@ class Student {
 
 
   public void goToClass() {
+
+    //there has to be a better way to do this...
 
     if (frameCount == p1e) { 
       buildings.leaveBuilding(target);
@@ -952,6 +975,14 @@ class Student {
       rect(location.x, location.y, 4, 4);
     }
   }
+
+  public boolean isMoving() {
+    if (velocity.mag() > .75f) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   public void run() {
     checkOnCampus();
