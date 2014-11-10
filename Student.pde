@@ -24,7 +24,7 @@ class Student {
   float topspeed;
   float maxforce;
 
-  int travelBuffer = int(random(200, 300));
+  int travelBuffer = int(random(300, 400));
   int breaks[];
 
   //They know when their periods start and end, and where they parked.
@@ -130,7 +130,7 @@ class Student {
     acceleration = new PVector();   
     topspeed = topspeed_;
     
-    //how quickly can our students steer? Changing this gives some 
+    //how quickly can our students steer? Changing this gives some nice effects
     maxforce = 0.15;
 
     checkLunch(); //Where should I get lunch today?
@@ -336,7 +336,6 @@ class Student {
     if (visible) {
       rectMode(CENTER);
       colorMode(RGB);
-
       noStroke(); //if I'm leaving, make me lighter
       if (leaving) {
         fill(255, 200, 20, 60);
